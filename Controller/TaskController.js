@@ -1,3 +1,4 @@
+const Emplopyee = require("../Model/Employee");
 const Employee = require("../Model/Employee");
 const TaskDetails = require("../Model/Task");
 
@@ -70,8 +71,36 @@ const EditTask = async (req, res) => {
     res.status(500).json({ message: 'Error updating task' });
   }
 };
+
+
+const GetAllEmployeeTask = async (req, res) => {
+  try {
+    const EmployeeList = await Employee.find({ User: req.user._id });
+    let result = [];
+
+    for (let i = 0; i < EmployeeList.length; i++) {
+      const emp = EmployeeList[i];
+      const AllTaskdetails = await TaskDetails.find({ employee: emp._id });
+
+      result.push({
+        employeeName: emp.employeeName,
+        employeeId: emp._id,
+        tasks: AllTaskdetails,
+      });
+    }
+
+    res.status(200).json(result);
+  } catch (Err) {
+    console.log(Err);
+    res.status(500).json({ message: "Error fetching employee tasks" });
+  }
+};
+
+
+
 module.exports = {
   CreateList,
   ListTask,
-  EditTask
+  EditTask,
+  GetAllEmployeeTask
 };

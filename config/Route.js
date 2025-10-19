@@ -15,13 +15,14 @@ const {
   CreateList,
   ListTask,
   EditTask,
+  GetAllEmployeeTask,
 } = require("../Controller/TaskController");
 const TokenVerify = require("../Middleware/Auth");
 
 //This is the User Routes
 Route.get("/Home", HomeRoute);
 Route.post("/Register", Register);
-Route.post("/Login", Login);
+Route.post("/login", Login);
 Route.get("/profile", TokenVerify, UserProfile);
 
 // Employee Routes
@@ -33,4 +34,7 @@ Route.put("/EditEmployee/:id", TokenVerify, EditEmployee);
 Route.post("/CreateList", TokenVerify, CreateList);
 Route.get("/listtask", TokenVerify, ListTask);
 Route.put("/EditTask", TokenVerify, EditTask);
+
+Route.get('/getallemployetask',TokenVerify,GetAllEmployeeTask)
+
 module.exports = Route;
